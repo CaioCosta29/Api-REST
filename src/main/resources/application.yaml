@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: api
+  datasource:
+    url: jdbc:mysql://localhost:3306/vollmed_api
+    username: root
+    password: Caio2004$
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:1234}
