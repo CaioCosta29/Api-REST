@@ -2,6 +2,7 @@ package med.voll.api.service;
 
 import med.voll.api.dto.consulta.request.DadosAgendamentoConsulta;
 import med.voll.api.dto.consulta.request.DadosCancelamentoConsulta;
+import med.voll.api.dto.consulta.response.DadosDetalhamentoConsulta;
 import med.voll.api.entity.consulta.Consulta;
 import med.voll.api.entity.medico.Medico;
 import med.voll.api.exceptions.ValidacaoException;
@@ -33,7 +34,7 @@ public class ConsultaService {
     }
 
     @Transactional
-    public void fazerAgendamento(DadosAgendamentoConsulta dadosAgendamentoConsulta) {
+    public DadosDetalhamentoConsulta fazerAgendamento(DadosAgendamentoConsulta dadosAgendamentoConsulta) {
         if (!pacienteRepository.existsById(dadosAgendamentoConsulta.idPaciente())) {
             throw new ValidacaoException("ID do paciente não existe");
         }
@@ -50,6 +51,8 @@ public class ConsultaService {
         var consulta = new Consulta(medico, paciente, dadosAgendamentoConsulta.data());
 
         consultaRepository.save(consulta);
+
+        return new DadosDetalhamentoConsulta(consulta);
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dadosAgendamentoConsulta) {
